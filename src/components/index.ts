@@ -1,0 +1,9 @@
+export { default as Navbar } from "./nav/Navbar";
+export { default as Footer } from "./footer/Footer";
+export { default as Recommended } from "./recommended/Recommended";
+export { default as LatesUpdate } from "./latestUpdate/LatestUpdate";
+export { default as CardManga } from "./card/CardManga";
+export { default as DropDown } from "./dropDown/DropDown";
+export { default as SkeletonCard } from "./skeleton/SkeletonCard";
+export { default as SkeletonDetail } from "./skeleton/SkeletonDetail";
+export { default as SkeletonChapter } from "./skeleton/SkeletonChapter";
