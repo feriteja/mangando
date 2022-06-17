@@ -3,7 +3,9 @@ import { MangaChapterType } from "../constant/mangaChapterType";
 import { MangaDetail } from "../constant/mangaDetailType";
 import { menuData } from "../constant/mangaType";
 
-const baseUrl = "https://mangando-api.herokuapp.com/api/komikindo";
+const baseUrl = import.meta.env.VITE_BASE_URL;
+if (import.meta.env.MODE === "development") {
+}
 
 const getMenuManga = async () => {
   const endPoint = `/home`;
