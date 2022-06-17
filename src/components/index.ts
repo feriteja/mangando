@@ -1,5 +1,6 @@
 export { default as Navbar } from "./nav/Navbar";
 export { default as Footer } from "./footer/Footer";
+export { default as SideBar } from "./sideBar/SideBar";
 export { default as Recommended } from "./recommended/Recommended";
 export { default as LatesUpdate } from "./latestUpdate/LatestUpdate";
 export { default as CardManga } from "./card/CardManga";
