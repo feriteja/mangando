@@ -12,7 +12,7 @@ const getMenuManga = async () => {
   try {
     const res = await axios.get<menuData>(`${baseUrl + endPoint}`);
 
-    return res.data.data.body;
+    return res.data.data;
   } catch (error) {
     throw error;
   }

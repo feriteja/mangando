@@ -2,14 +2,14 @@ import React, { useId } from "react";
 import SkeletonCard from "../skeleton/SkeletonCard";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { getMenuManga } from "../../services/manga";
-import { MangaBody } from "../../constant/mangaType";
+import { Data } from "../../constant/mangaType";
 import { useQuery } from "react-query";
 import CardManga from "../card/CardManga";
 
 const recommended = () => {
   const sliderId = useId();
 
-  const { data, status } = useQuery<MangaBody>("mangaMenu", getMenuManga);
+  const { data, status } = useQuery<Data>("mangaMenu", getMenuManga);
 
   const slideMove = (direction: "right" | "left") => {
     const slider = document.getElementById(sliderId);
@@ -36,7 +36,7 @@ const recommended = () => {
             ? [...Array(10).keys()].map((e, idx) => (
                 <SkeletonCard key={idx + "recomended"} />
               ))
-            : data?.recent_popular.map((e, idx) => (
+            : data?.body.recent_popular.map((e, idx) => (
                 <CardManga key={e.link.endpoint} {...e} />
               ))}
         </div>

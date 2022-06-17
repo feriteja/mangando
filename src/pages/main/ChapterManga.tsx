@@ -5,9 +5,11 @@ import {
 } from "react-lazy-load-image-component";
 import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
-import { DropDown, SkeletonChapter } from "../../components";
+import { DropDown, NavChapter, SkeletonChapter } from "../../components";
 import { getMangaChapter, getMangaDetail } from "../../services/manga";
 import { FaChevronUp } from "react-icons/fa";
+import { HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi";
+import { Data } from "../../constant/mangaChapterType";
 
 const ChapterManga = () => {
   const [scrollPosition, setPosition] = useState({ x: 0, y: 0 });
@@ -19,6 +21,8 @@ const ChapterManga = () => {
     [`chapter/${chapterId}`, chapterId],
     () => getMangaChapter(chapterId)
   );
+
+  console.log(dataChapter);
 
   useLayoutEffect(() => {
     const handleScroll = () => {
@@ -58,7 +62,7 @@ const ChapterManga = () => {
           {">"} <span>{dataChapter?.chapter_name}</span>
         </div>
         <div>
-          <p className="text-center">
+          <p className="text-center opacity-80">
             Read the latest manga <strong>{dataChapter?.chapter_name}</strong>{" "}
             at Mangando . Manga {data?.title.slice(6)} at Mangando . Don't
             forget to read the other manga updates. A list of manga collections
@@ -71,19 +75,21 @@ const ChapterManga = () => {
           chapterList={data?.chapters}
         />
       </div>
-      <div className="mt-10 space-y-0  ">
+      <div className="mt-10">
+        <NavChapter title={title} dataChapter={dataChapter as Data} />
         {dataChapter?.chapter_images.map((e, idx) => {
           return (
             <LazyLoadImage
               scrollPosition={scrollPosition}
               effect="opacity"
               width={"100%"}
-              className="w-2/3 mx-auto "
+              className="w-5/6 mx-auto "
               src={e}
               alt=""
             />
           );
         })}
+        <NavChapter title={title} dataChapter={dataChapter as Data} />
       </div>
       <button
         disabled={scrollPosition.y < 20}
@@ -92,9 +98,9 @@ const ChapterManga = () => {
           scrollPosition.y >= 20
             ? "fixed opacity-100 right-3"
             : "fixed opacity-0 right-10 "
-        } bottom-3  ease-in duration-200 `}
+        } bottom-3   ease-in duration-200 z-20 `}
       >
-        <FaChevronUp size={30} />
+        <FaChevronUp size={40} />
       </button>
     </div>
   );

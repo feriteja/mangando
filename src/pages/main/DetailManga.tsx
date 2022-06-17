@@ -74,12 +74,12 @@ const DetailManga = () => {
           )}
         </button>
       </div>
-      <div className="space-y-3 overflow-y-auto max-h-[500px] scrollbar-hide">
-        <h1 className="font-bold">Chapter</h1>
+      <h1 className="font-bold">Chapter</h1>
+      <div className="flex flex-col space-y-2 overflow-auto max-h-[500px] scrollbar-hide">
         {data?.chapters.map((chapter) => {
           return (
             <Link to={`/komik/${title}/${chapter.endpoint}`}>
-              <div className="flex justify-between px-2 py-1 rounded-md shadow-sm bg-secondary">
+              <div className="flex justify-between px-2 py-2 rounded-md shadow-sm bg-secondary">
                 <h2>{chapter.title}</h2>
                 <BsDownload />
               </div>

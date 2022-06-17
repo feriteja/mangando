@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { MangaBody } from "../../constant/mangaType";
+import { Data } from "../../constant/mangaType";
 import { getMenuManga } from "../../services/manga";
 import CardManga from "../card/CardManga";
 
 import SkeletonCard from "../skeleton/SkeletonCard";
 
 const LatestUpdate = () => {
-  const { data, status } = useQuery<MangaBody>("mangaMenu", getMenuManga);
+  const { data, status } = useQuery<Data>("mangaMenu", getMenuManga);
 
   return (
     <div className="bg-secondary p-2 rounded-div mt-3">
@@ -17,7 +17,7 @@ const LatestUpdate = () => {
           ? [...Array(10).keys()].map((e, idx) => (
               <SkeletonCard key={idx + "latest"} />
             ))
-          : data?.new_update.map((data, idx) => {
+          : data?.body.new_update.map((data, idx) => {
               return <CardManga key={idx + "latest"} {...data} />;
             })}
       </div>
