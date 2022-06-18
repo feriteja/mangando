@@ -38,7 +38,7 @@ const Account = () => {
           </button>
         </div>
       </div>
-      <div className="flex justify-between items-center my-12 py-4 rounded-div">
+      <div className="flex justify-between items-center my-8 py-3 px-2 rounded-div">
         <div className="w-full min-h-[300px]">
           <h1 className="text-2xl font-bold py-4">My Favorite</h1>
         </div>

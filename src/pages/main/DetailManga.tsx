@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link, useMatch, useParams } from "react-router-dom";
 import { SkeletonDetail } from "../../components";
@@ -17,13 +17,16 @@ const DetailManga = () => {
     UserState() as userStateContextProps;
   const [showMore, setShowMore] = useState(false);
   const { title = "" } = useParams();
-  const [isFav, setIsFav] = useState(
-    mangaList.some((manga) => manga.endpoint === title)
-  );
+  const [isFav, setIsFav] = useState(false);
   const [isWaitFav, setIsWaitFav] = useState(false);
   const { status, data } = useQuery([`detail${title}`, title], () =>
     getMangaDetail(title)
   );
+
+  useEffect(() => {
+    setIsFav(mangaList.some((manga) => manga.endpoint === title));
+    return () => {};
+  }, [status]);
 
   const handleFav = async () => {
     if (isWaitFav) return;
