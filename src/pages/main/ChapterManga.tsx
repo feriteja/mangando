@@ -26,7 +26,7 @@ const ChapterManga = () => {
 
   useEffect(() => {
     if (statusChapter === "success" && dataChapter === undefined)
-      navigate("/not-found");
+      navigate("/not-found", { replace: true });
   }, [status]);
 
   useLayoutEffect(() => {

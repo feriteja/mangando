@@ -94,7 +94,7 @@ const DetailManga = () => {
               <BsPen /> <h3>{data?.pengarang[0].name}</h3>
             </div>
             <div className="flex items-center`">
-              <BsPencil /> <h3>{data?.illustrator[0].name}</h3>
+              <BsPencil /> <h3>{data?.illustrator[0]?.name}</h3>
             </div>
           </div>
           <div className="flex flex-wrap  ">

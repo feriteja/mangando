@@ -18,7 +18,7 @@ const Account = () => {
   };
 
   useEffect(() => {
-    if (!user) navigation("/signin");
+    if (!user) navigation("/signin", { replace: true });
   }, [user]);
 
   return (
@@ -42,7 +42,7 @@ const Account = () => {
       <div className="flex justify-between items-center my-8 py-2 px-2 rounded-div">
         <div className="w-full min-h-[300px]">
           <h1 className="text-2xl font-bold py-4">My Favorite</h1>
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 xl:grid-cols-4">
             {mangaList.map((manga, idx) => {
               return (
                 <CardManga
