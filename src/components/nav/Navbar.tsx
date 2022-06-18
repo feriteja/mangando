@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
+import { auth } from "../../firebase";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const user = auth;
 
   const handleNav = () => {
     setIsOpen((prev) => !prev);
