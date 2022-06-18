@@ -4,6 +4,8 @@ export { default as SideBar } from "./sideBar/SideBar";
 export { default as Recommended } from "./recommended/Recommended";
 export { default as LatesUpdate } from "./latestUpdate/LatestUpdate";
 export { default as CardManga } from "./card/CardManga";
+export { default as CardTrending } from "./card/CardTrending";
+export { default as InputForm } from "./form/Input";
 export { default as NavChapter } from "./button/NavChapter";
 export { default as DropDown } from "./dropDown/DropDown";
 export { default as SkeletonCard } from "./skeleton/SkeletonCard";

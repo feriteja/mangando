@@ -11,6 +11,7 @@
     "@headlessui/react": "^1.6.4",
     "@tailwindcss/line-clamp": "^0.4.0",
     "axios": "^0.27.2",
+    "firebase": "^9.8.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-icons": "^4.4.0",

@@ -14,7 +14,7 @@ const CardManga = (props: ColoredKomik) => {
         <h1 className="font-bold text-sm m-1 text-ellipsis line-clamp-2">
           {props.name}
         </h1>
-        <div className="bg-secondary rounded-lg mx-1">
+        <div className="rounded-lg py-1 mx-1">
           <p>{props.last_chapter?.name}</p>
           <p>{props.last_upload}</p>
         </div>

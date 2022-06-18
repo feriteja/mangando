@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className=" bg-secondary py-4  relative mt-auto clear-both ">
+    <div className=" bg-secondary py-4 mt-auto ">
       <div className=" ">
         <ul className="flex  flex-col border-b md:flex-row items-center  justify-center text-center  space-x-4 font-bold">
           <li className="cursor-pointer">
