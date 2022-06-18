@@ -6,7 +6,15 @@ import {
   signOut,
   User,
 } from "firebase/auth";
-import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -25,18 +33,36 @@ export interface coinDB {
   symbol: string;
 }
 
+export interface UserMangaFav {
+  endpoint: string;
+  title: string;
+  thumb: string;
+}
+
 export interface userStateContextProps {
   user: User | null;
   logOut: () => Promise<void>;
   signIn: (props: authType) => Promise<User>;
   signUp: (props: authType) => Promise<User>;
+  addToFav: (props: UserMangaFav) => Promise<void>;
+  deleteFromFav: (props: UserMangaFav) => Promise<void>;
+  mangaList: UserMangaFav[];
 }
 
 const UserContext = createContext<Partial<userStateContextProps>>({});
 
 const AuthContextProvider: React.FC<any> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [mangaList, setMangaList] = useState<UserMangaFav[]>([]);
   const navigate = useNavigate();
+
+  const userMangaPath = doc(
+    db,
+    "users",
+    `${user?.email}`,
+    "application",
+    "mangando"
+  );
 
   const signUp = async (props: authType) => {
     try {
@@ -100,7 +126,31 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
     }
   };
 
-  const coinPath = doc(db, "users", `${user?.email}`);
+  const addToFav = async (props: UserMangaFav) => {
+    try {
+      await updateDoc(userMangaPath, {
+        myFavorite: arrayUnion({ ...props }),
+      });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        throw error;
+      }
+      throw error;
+    }
+  };
+
+  const deleteFromFav = async (props: UserMangaFav) => {
+    try {
+      await updateDoc(userMangaPath, {
+        myFavorite: arrayRemove({ ...props }),
+      });
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        throw error;
+      }
+      throw error;
+    }
+  };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -112,20 +162,27 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
     };
   }, []);
 
-  //   useEffect(() => {
-  //     const unSubscribe = onSnapshot(
-  //       doc(db, "users", `${user?.email}`),
-  //       (doc: any) => {
-  //         setCoins(doc?.data()?.watchList || []);
-  //       }
-  //     );
-  //     return () => {
-  //       unSubscribe();
-  //     };
-  //   }, [user?.email]);
+  useEffect(() => {
+    const unSubscribe = onSnapshot(userMangaPath, (doc: any) => {
+      setMangaList(doc?.data()?.myFavorite || []);
+    });
+    return () => {
+      unSubscribe();
+    };
+  }, [user?.email]);
 
   return (
-    <UserContext.Provider value={{ user, signIn, signUp, logOut }}>
+    <UserContext.Provider
+      value={{
+        user,
+        signIn,
+        signUp,
+        logOut,
+        addToFav,
+        deleteFromFav,
+        mangaList,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -133,6 +190,6 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
 
 export default AuthContextProvider;
 
-export const UserAuth = () => {
+export const UserState = () => {
   return useContext(UserContext);
 };

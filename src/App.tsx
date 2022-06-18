@@ -1,4 +1,3 @@
-import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Route, Routes } from "react-router-dom";
 import { Footer, Navbar } from "./components";
@@ -20,6 +19,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/account" element={<Account />} />
+
               <Route path="/komik">
                 <Route path=":title" element={<DetailManga />} />
                 <Route path=":title/:chapterId" element={<ChapterManga />} />

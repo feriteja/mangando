@@ -6,7 +6,7 @@ import { BsFacebook } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { InputForm } from "../../components";
 import {
-  UserAuth,
+  UserState,
   userStateContextProps,
 } from "../../context/UserStateContext";
 
@@ -16,7 +16,7 @@ const SignUp = () => {
   const [confPassword, setConfPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { signUp: signUpUser } = UserAuth() as userStateContextProps;
+  const { signUp: signUpUser } = UserState() as userStateContextProps;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -64,7 +64,7 @@ const SignUp = () => {
           />
           <div className="h-3" />
           <input
-            className="bg-button text-btnText w-full rounded-lg py-2 mt-8 font-bold "
+            className="bg-button text-btnText w-full rounded-lg py-2 mt-8 font-bold  cursor-pointer"
             type="submit"
             value={"Sign Up"}
           />
@@ -73,9 +73,15 @@ const SignUp = () => {
       <div className="  w-full max-w-lg  mt-6  mx-auto space-y-4 ">
         <p className="text-center opacity-90 ">or Sign Up using</p>
         <div className="flex items-center justify-center space-x-10">
-          <BsFacebook className="text-[#3D5892]" size={35} />
-          <AiFillGoogleCircle className="text-[#D56455]" size={40} />
-          <AiFillTwitterCircle className="text-[#4CA0ED]" size={40} />
+          <BsFacebook className="text-[#3D5892] cursor-pointer" size={35} />
+          <AiFillGoogleCircle
+            className="text-[#D56455] cursor-pointer"
+            size={40}
+          />
+          <AiFillTwitterCircle
+            className="text-[#4CA0ED] cursor-pointer"
+            size={40}
+          />
         </div>
       </div>
     </div>

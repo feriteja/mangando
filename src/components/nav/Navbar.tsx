@@ -1,15 +1,16 @@
+import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
 import {
-  UserAuth,
+  UserState,
   userStateContextProps,
 } from "../../context/UserStateContext";
 import { auth } from "../../firebase";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logOut } = UserAuth() as userStateContextProps;
+  const { user, logOut } = UserState() as userStateContextProps;
 
   const handleNav = () => {
     setIsOpen((prev) => !prev);
@@ -19,7 +20,7 @@ const Navbar = () => {
     <>
       <nav className="flex items-center justify-between h-16  rounded-div px-2 sm:px-4 md:px-6 ">
         <NavLink to={"/"}>
-          <h1 className="font-bold text-2xl">Mangando</h1>
+          <h1 className="font-bold text-2xl z-40">Mangando</h1>
         </NavLink>
         <ul className="hidden sm:flex font-bold items-center text-center sm:text-sm md:text-base ">
           <li className="mx-2">
@@ -80,6 +81,13 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile */}
+
+      <div
+        onClick={() => setIsOpen(false)}
+        className={`${
+          isOpen ? " bg-black/30 " : "bg-black/0 -z-20 "
+        } absolute h-full w-full`}
+      />
       <div
         className={
           isOpen
@@ -87,28 +95,55 @@ const Navbar = () => {
             : "fixed sm:hidden right-[-100%] top-16   bg-secondary  w-[75%] h-full opacity-0 ease-in duration-300 "
         }
       >
-        <ul className="flex justify-center">
-          <li>
-            <NavLink to={"/signin"}>
-              <button
-                onClick={handleNav}
-                className="mx-2   border-2 rounded-xl px-2 py-1 font-bold"
+        {user?.email ? (
+          <ul className="flex justify-center">
+            <li>
+              <NavLink
+                onClick={() => setIsOpen(false)}
+                className={({ isActive }) =>
+                  isActive ? "text-accent" : "text-primary"
+                }
+                to={"/account"}
               >
-                Sign in
-              </button>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"signup"}>
+                <button className="mx-2 px-2 py-1 font-bold">Account</button>
+              </NavLink>
+            </li>
+            <li>
               <button
-                onClick={handleNav}
+                onClick={() => {
+                  logOut();
+                  setIsOpen(false);
+                }}
                 className="mx-2  rounded-xl px-2 py-1 bg-button text-btnText font-bold  "
               >
-                Sign up
+                Sign Out
               </button>
-            </NavLink>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        ) : (
+          <ul className="flex justify-center">
+            <li>
+              <NavLink to={"/signin"}>
+                <button
+                  onClick={handleNav}
+                  className="mx-2   border-2 rounded-xl px-2 py-1 font-bold"
+                >
+                  Sign in
+                </button>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={"signup"}>
+                <button
+                  onClick={handleNav}
+                  className="mx-2  rounded-xl px-2 py-1 bg-button text-btnText font-bold  "
+                >
+                  Sign up
+                </button>
+              </NavLink>
+            </li>
+          </ul>
+        )}
         <ul className="font-bold flex flex-col justify-evenly h-40">
           <NavLink
             to={"/"}
