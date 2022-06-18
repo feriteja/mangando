@@ -5,6 +5,7 @@ import { IconType } from "react-icons/lib";
 interface props {
   label: string;
   Icon: IconType;
+  placeHolder?: string;
   isPassword?: boolean;
   onChange: (text: string) => void;
 }
@@ -14,6 +15,7 @@ const Input: React.FC<props> = ({
   label,
   isPassword = false,
   onChange,
+  placeHolder = "",
 }) => {
   const [showPass, setShowPass] = useState(!isPassword);
 
@@ -34,7 +36,7 @@ const Input: React.FC<props> = ({
           type={showPass ? "text" : "password"}
           id="username"
           autoComplete={isPassword ? "new-password" : "on"}
-          placeholder="user@mail.com"
+          placeholder={placeHolder}
         />
         {isPassword &&
           (showPass ? (

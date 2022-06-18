@@ -4,19 +4,16 @@ import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 interface UserInputType {
-  username: string;
+  userName: string;
   password: string;
   confirmPassword?: string;
 }
 
 const signUpUser = async (userInput: UserInputType) => {
-  if (userInput.password !== userInput.confirmPassword) {
-    throw "Password and Confirm Password doesn't match";
-  }
   try {
     const res = await createUserWithEmailAndPassword(
       auth,
-      userInput.username,
+      userInput.userName,
       userInput.password
     );
     const userPath = doc(db, "users", `${res.user.email}`);

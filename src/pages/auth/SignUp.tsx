@@ -1,40 +1,62 @@
+import { FirebaseError } from "firebase/app";
 import React, { SyntheticEvent, useState } from "react";
 import { AiFillGoogleCircle, AiFillTwitterCircle } from "react-icons/ai";
 import { BiLockAlt, BiUser } from "react-icons/bi";
 import { BsFacebook } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { InputForm } from "../../components";
+import { signUpUser } from "../../services/auth";
 
 const SignUp = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+
+    if (password !== confPassword) {
+      setError("Password and Confirm Password doesn't match");
+    }
+
+    try {
+      await signUpUser({ userName, password, confirmPassword: confPassword });
+      navigate("/");
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        setError(error.message);
+      }
+      console.log(error);
+    }
   };
 
   return (
     <div className=" min-h-screen justify-center items-center  ">
       <div className=" w-3/4 md:w-full max-w-2xl px-4 pt-4  ` pb-5 mt-10 mx-auto rounded-md shadow-xl ">
         <h1 className=" text-xl font-bold text-center mb-7">Sign Up</h1>
-
+        {error && <p>{error}</p>}
         <form onSubmit={onSubmit} className="space-y-4">
           <InputForm
             onChange={(text) => setUserName(text)}
             label="Username or Email Address"
             Icon={BiUser}
+            placeHolder="user@mail.com"
           />
           <InputForm
             onChange={(text) => setPassword(text)}
             label="Password"
             Icon={BiLockAlt}
             isPassword
+            placeHolder="***********"
           />
           <InputForm
             onChange={(text) => setConfPassword(text)}
             label="Confirm Password"
             Icon={BiLockAlt}
             isPassword
+            placeHolder="***********"
           />
           <div className="h-3" />
           <input
