@@ -5,7 +5,10 @@ import { BiLockAlt, BiUser } from "react-icons/bi";
 import { BsFacebook } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { InputForm } from "../../components";
-import { signUpUser } from "../../services/auth";
+import {
+  UserAuth,
+  userStateContextProps,
+} from "../../context/UserStateContext";
 
 const SignUp = () => {
   const [userName, setUserName] = useState("");
@@ -13,6 +16,7 @@ const SignUp = () => {
   const [confPassword, setConfPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { signUp: signUpUser } = UserAuth() as userStateContextProps;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -22,11 +26,11 @@ const SignUp = () => {
     }
 
     try {
-      await signUpUser({ userName, password, confirmPassword: confPassword });
+      await signUpUser({ email: userName, password });
       navigate("/");
     } catch (error) {
       if (error instanceof FirebaseError) {
-        setError(error.message);
+        setError(error.code);
       }
       console.log(error);
     }
@@ -36,7 +40,7 @@ const SignUp = () => {
     <div className=" min-h-screen justify-center items-center  ">
       <div className=" w-3/4 md:w-full max-w-2xl px-4 pt-4  ` pb-5 mt-10 mx-auto rounded-md shadow-xl ">
         <h1 className=" text-xl font-bold text-center mb-7">Sign Up</h1>
-        {error && <p>{error}</p>}
+        {error && <p className="text-center text-red-400">{error}</p>}
         <form onSubmit={onSubmit} className="space-y-4">
           <InputForm
             onChange={(text) => setUserName(text)}

@@ -9,10 +9,12 @@ import {
 import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { auth, db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 interface authType {
   email: string;
   password: string;
+  confirmPassword?: string;
 }
 
 export interface coinDB {
@@ -28,28 +30,37 @@ export interface userStateContextProps {
   logOut: () => Promise<void>;
   signIn: (props: authType) => Promise<User>;
   signUp: (props: authType) => Promise<User>;
-  coins: coinDB[];
-  setCoins: React.Dispatch<React.SetStateAction<coinDB[]>>;
-  deleteCoin: (passId: string) => Promise<void>;
 }
 
 const UserContext = createContext<Partial<userStateContextProps>>({});
 
 const AuthContextProvider: React.FC<any> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [coins, setCoins] = useState<coinDB[]>([]);
+  const navigate = useNavigate();
 
   const signUp = async (props: authType) => {
     try {
-      const user = await createUserWithEmailAndPassword(
+      const res = await createUserWithEmailAndPassword(
         auth,
         props.email,
         props.password
       );
-      await setDoc(doc(db, "users", `${user.user.email}`), {
-        watchList: [],
+
+      const userPath = doc(db, "users", `${res.user.email}`);
+      await setDoc(userPath, {
+        username: res.user.email,
       });
-      return user.user;
+      const userMangaPath = doc(
+        db,
+        "users",
+        `${res.user.email}`,
+        "application",
+        "mangando"
+      );
+      await setDoc(userMangaPath, {
+        myFavorite: [],
+      });
+      return res.user;
     } catch (error) {
       if (error instanceof FirebaseError) {
         throw error;
@@ -78,7 +89,7 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
   const logOut = async () => {
     try {
       const user = await signOut(auth);
-      setCoins([]);
+      navigate("/");
 
       return user;
     } catch (error) {
@@ -91,17 +102,6 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
 
   const coinPath = doc(db, "users", `${user?.email}`);
 
-  const deleteCoin = async (passId: string) => {
-    try {
-      const result = coins.filter((item: coinDB) => item.id !== passId);
-      await updateDoc(coinPath, {
-        watchList: result,
-      });
-    } catch (error) {
-      throw error;
-    }
-  };
-
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -112,22 +112,20 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const unSubscribe = onSnapshot(
-      doc(db, "users", `${user?.email}`),
-      (doc: any) => {
-        setCoins(doc?.data()?.watchList || []);
-      }
-    );
-    return () => {
-      unSubscribe();
-    };
-  }, [user?.email]);
+  //   useEffect(() => {
+  //     const unSubscribe = onSnapshot(
+  //       doc(db, "users", `${user?.email}`),
+  //       (doc: any) => {
+  //         setCoins(doc?.data()?.watchList || []);
+  //       }
+  //     );
+  //     return () => {
+  //       unSubscribe();
+  //     };
+  //   }, [user?.email]);
 
   return (
-    <UserContext.Provider
-      value={{ user, signIn, signUp, logOut, coins, setCoins, deleteCoin }}
-    >
+    <UserContext.Provider value={{ user, signIn, signUp, logOut }}>
       {children}
     </UserContext.Provider>
   );

@@ -6,7 +6,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import AuthContextProvider from "./context/UserStateContext";
 import { SignIn, SignUp } from "./pages/auth";
 import { Dmca, PrivacyPolicy, TermsOfService } from "./pages/legal";
-import { ChapterManga, DetailManga, Home } from "./pages/main";
+import { Account, ChapterManga, DetailManga, Home } from "./pages/main";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +19,7 @@ const App = () => {
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/account" element={<Account />} />
               <Route path="/komik">
                 <Route path=":title" element={<DetailManga />} />
                 <Route path=":title/:chapterId" element={<ChapterManga />} />

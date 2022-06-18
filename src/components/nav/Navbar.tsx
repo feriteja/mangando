@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
+import {
+  UserAuth,
+  userStateContextProps,
+} from "../../context/UserStateContext";
 import { auth } from "../../firebase";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = auth;
+  const { user, logOut } = UserAuth() as userStateContextProps;
 
   const handleNav = () => {
     setIsOpen((prev) => !prev);
@@ -31,22 +35,45 @@ const Navbar = () => {
           <li className="mx-2">All Series</li>
           <li className="mx-2">Genres</li>
         </ul>
-        <ul className="hidden sm:flex">
-          <li>
-            <NavLink to={"/signin"}>
-              <button className="mx-2   border-2 rounded-xl px-2 py-1 font-bold">
-                Sign in
+        {user?.email ? (
+          <ul className="hidden sm:flex">
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "text-accent" : "text-primary"
+                }
+                to={"/account"}
+              >
+                <button className="mx-2 px-2 py-1 font-bold">Account</button>
+              </NavLink>
+            </li>
+            <li>
+              <button
+                onClick={() => logOut()}
+                className="mx-2  rounded-xl px-2 py-1 bg-button text-btnText font-bold  "
+              >
+                Sign Out
               </button>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"signup"}>
-              <button className="mx-2  rounded-xl px-2 py-1 bg-button text-btnText font-bold  ">
-                Sign up
-              </button>
-            </NavLink>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        ) : (
+          <ul className="hidden sm:flex">
+            <li>
+              <NavLink to={"/signin"}>
+                <button className="mx-2   border-2 rounded-xl px-2 py-1 font-bold">
+                  Sign in
+                </button>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={"signup"}>
+                <button className="mx-2  rounded-xl px-2 py-1 bg-button text-btnText font-bold  ">
+                  Sign up
+                </button>
+              </NavLink>
+            </li>
+          </ul>
+        )}
         <button className="sm:hidden" onClick={handleNav}>
           {isOpen ? <MdClose size={28} /> : <MdMenu size={28} />}
         </button>

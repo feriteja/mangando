@@ -35,7 +35,6 @@ const Input: React.FC<props> = ({
           className="bg-inherit w-full focus:outline-none ml-2"
           type={showPass ? "text" : "password"}
           id="username"
-          autoComplete={isPassword ? "new-password" : "on"}
           placeholder={placeHolder}
         />
         {isPassword &&
