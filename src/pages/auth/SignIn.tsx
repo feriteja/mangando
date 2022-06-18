@@ -13,8 +13,8 @@ const SignIn = () => {
   };
   return (
     <div className=" min-h-screen justify-center items-center  ">
-      <div className=" w-3/4 md:w-full max-w-2xl px-4 pt-8 pb-5 mt-10 mx-auto rounded-md shadow-xl ">
-        <h1 className=" text-xl font-bold text-center mb-10">Sign Up</h1>
+      <div className=" w-3/4 md:w-full max-w-2xl px-4 pt-4  ` pb-5 mt-10 mx-auto rounded-md shadow-xl ">
+        <h1 className=" text-xl font-bold text-center mb-7">Sign In</h1>
 
         <form onSubmit={onSubmit} className="space-y-4">
           <InputForm
@@ -33,12 +33,12 @@ const SignIn = () => {
           <input
             className="bg-button text-btnText w-full rounded-lg py-2 mt-8 font-bold "
             type="submit"
-            value={"Sign Up"}
+            value={"Sign In"}
           />
         </form>
       </div>
       <div className="  w-full max-w-lg  mt-6  mx-auto space-y-4 ">
-        <p className="text-center opacity-90 ">or Sign Up using</p>
+        <p className="text-center opacity-90 ">or Sign In using</p>
         <div className="flex items-center justify-center space-x-10">
           <BsFacebook className="text-[#3D5892]" size={35} />
           <AiFillGoogleCircle className="text-[#D56455]" size={40} />

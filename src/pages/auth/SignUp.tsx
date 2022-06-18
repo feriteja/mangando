@@ -15,8 +15,8 @@ const SignUp = () => {
 
   return (
     <div className=" min-h-screen justify-center items-center  ">
-      <div className=" w-3/4 md:w-full max-w-2xl px-4 pt-8 pb-5 mt-10 mx-auto rounded-md shadow-xl ">
-        <h1 className=" text-xl font-bold text-center mb-10">Sign Up</h1>
+      <div className=" w-3/4 md:w-full max-w-2xl px-4 pt-4  ` pb-5 mt-10 mx-auto rounded-md shadow-xl ">
+        <h1 className=" text-xl font-bold text-center mb-7">Sign Up</h1>
 
         <form onSubmit={onSubmit} className="space-y-4">
           <InputForm

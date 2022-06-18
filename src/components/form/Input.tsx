@@ -18,7 +18,7 @@ const Input: React.FC<props> = ({
   const [showPass, setShowPass] = useState(!isPassword);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       <label
         className="after:content-['*'] after:text-red-400"
         htmlFor="username"
@@ -26,7 +26,7 @@ const Input: React.FC<props> = ({
         {" "}
         {label}
       </label>
-      <div className="flex  bg-primary items-center p-2 w-full border rounded-md overflow-hidden">
+      <div className="flex  bg-primary items-center p-2 w-full shadow-sm rounded-md focus-within:shadow-lg overflow-hidden">
         <Icon size={24} />
         <input
           onChange={(e) => onChange(e.target.value)}

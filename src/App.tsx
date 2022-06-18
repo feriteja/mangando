@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <ThemeProvider initialTheme="light">
+    <ThemeProvider initialTheme="dark">
       <QueryClientProvider client={queryClient}>
         <div className=" flex flex-col min-h-screen ">
           <Navbar />
