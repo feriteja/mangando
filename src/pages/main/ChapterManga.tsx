@@ -1,10 +1,10 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
   LazyLoadImage,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
 import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { DropDown, NavChapter, SkeletonChapter } from "../../components";
 import { getMangaChapter, getMangaDetail } from "../../services/manga";
 import { FaChevronUp } from "react-icons/fa";
@@ -22,7 +22,12 @@ const ChapterManga = () => {
     () => getMangaChapter(chapterId)
   );
 
-  console.log(dataChapter);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (statusChapter === "success" && dataChapter === undefined)
+      navigate("/not-found");
+  }, [status]);
 
   useLayoutEffect(() => {
     const handleScroll = () => {

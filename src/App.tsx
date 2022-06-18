@@ -1,11 +1,17 @@
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Footer, Navbar } from "./components";
 import { ThemeProvider } from "./context/ThemeContext";
 import AuthContextProvider from "./context/UserStateContext";
 import { SignIn, SignUp } from "./pages/auth";
 import { Dmca, PrivacyPolicy, TermsOfService } from "./pages/legal";
-import { Account, ChapterManga, DetailManga, Home } from "./pages/main";
+import {
+  Account,
+  ChapterManga,
+  DetailManga,
+  Home,
+  NotFound,
+} from "./pages/main";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +25,6 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/account" element={<Account />} />
-
               <Route path="/komik">
                 <Route path=":title" element={<DetailManga />} />
                 <Route path=":title/:chapterId" element={<ChapterManga />} />
@@ -29,6 +34,8 @@ const App = () => {
               <Route path="/term-of-services" element={<TermsOfService />} />
               <Route path="/dmca" element={<Dmca />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/not-found" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/not-found" replace />} />
             </Routes>
             <Footer />
           </div>

@@ -49,7 +49,7 @@ const Account = () => {
                   key={manga.endpoint + "fav"}
                   thumb={manga.thumb}
                   name={manga.title}
-                  endpoint={manga.endpoint}
+                  endpoint={`komik/${manga.endpoint}`}
                 />
               );
             })}

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Link, useMatch, useParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useMatch,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { SkeletonDetail } from "../../components";
 import { getMangaDetail } from "../../services/manga";
 import { BsCircleFill, BsDownload, BsPen, BsPencil } from "react-icons/bs";
@@ -19,13 +25,15 @@ const DetailManga = () => {
   const { title = "" } = useParams();
   const [isFav, setIsFav] = useState(false);
   const [isWaitFav, setIsWaitFav] = useState(false);
-  const { status, data } = useQuery([`detail${title}`, title], () =>
-    getMangaDetail(title)
+  const { status, data, error, isError } = useQuery(
+    [`detail${title}`, title],
+    () => getMangaDetail(title)
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (status === "success" && data === undefined) navigate("/not-found");
     setIsFav(mangaList.some((manga) => manga.endpoint === title));
-    return () => {};
   }, [status]);
 
   const handleFav = async () => {
@@ -59,8 +67,8 @@ const DetailManga = () => {
       <div className="flex  w-full space-x-3  ">
         <img className="h-44 w-40 object-cover " src={data?.thumb} alt="" />
         <div className="flex flex-1 flex-col space-y-2 ">
-          <div className="flex items-center justify-between pr-4 ">
-            <h1 className="font-bold text-2xl">{data?.title}</h1>
+          <div className="flex  items-center justify-between pr-4 ">
+            <h1 className="font-bold text-xl md:text-2xl">{data?.title}</h1>
             <button onClick={isFav ? handleFav : handleFav}>
               {isFav ? (
                 <FaHeart size={25} className="text-pink-500" />
@@ -89,9 +97,9 @@ const DetailManga = () => {
               <BsPencil /> <h3>{data?.illustrator[0].name}</h3>
             </div>
           </div>
-          <div className="flex space-x-3 ">
+          <div className="flex flex-wrap  ">
             {data?.genre.map((genre) => (
-              <h3 key={genre.name} className="font-semibold">
+              <h3 key={genre.name} className="font-semibold mr-3">
                 {genre.name}
               </h3>
             ))}
