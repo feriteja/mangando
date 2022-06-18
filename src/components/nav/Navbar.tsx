@@ -133,7 +133,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"signup"}>
+              <NavLink to={"/signup"}>
                 <button
                   onClick={handleNav}
                   className="mx-2  rounded-xl px-2 py-1 bg-button text-btnText font-bold  "
