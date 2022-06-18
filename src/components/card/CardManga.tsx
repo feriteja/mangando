@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const CardManga = (props: ColoredKomik) => {
   return (
     <div className=" snap-start border inline-block rounded-md shadow-md w-40 min-h-fit overflow-hidden">
-      <Link to={`/${props.link.endpoint}`}>
+      <Link to={`/${props.link?.endpoint || props.endpoint || ""}`}>
         <img
           className="h-36 min-w-[160px] object-fill "
           src={props.thumb}

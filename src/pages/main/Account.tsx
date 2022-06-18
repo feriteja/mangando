@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { CardManga } from "../../components";
 import {
   UserState,
   userStateContextProps,
@@ -22,7 +23,7 @@ const Account = () => {
 
   return (
     <div className="w-full max-w-[1140px] mx-auto">
-      <div className="flex justify-between items-center my-7 py-4   rounded-div">
+      <div className="flex justify-between items-center my-7 py-4 px-4   rounded-div">
         <div>
           <h1 className="text-2xl font-bold">Account</h1>
           <div>
@@ -38,9 +39,21 @@ const Account = () => {
           </button>
         </div>
       </div>
-      <div className="flex justify-between items-center my-8 py-3 px-2 rounded-div">
+      <div className="flex justify-between items-center my-8 py-2 px-2 rounded-div">
         <div className="w-full min-h-[300px]">
           <h1 className="text-2xl font-bold py-4">My Favorite</h1>
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+            {mangaList.map((manga, idx) => {
+              return (
+                <CardManga
+                  key={manga.endpoint + "fav"}
+                  thumb={manga.thumb}
+                  name={manga.title}
+                  endpoint={manga.endpoint}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

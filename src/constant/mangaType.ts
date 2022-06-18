@@ -26,7 +26,8 @@ export interface NewUpdate {
 export interface ColoredKomik {
   name: string;
   thumb: string;
-  link: Link;
+  endpoint?: string;
+  link?: Link;
   last_upload?: string;
   last_chapter?: LastChapter;
 }
