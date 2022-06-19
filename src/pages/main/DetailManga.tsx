@@ -8,7 +8,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { SkeletonDetail } from "../../components";
-import { getMangaDetail } from "../../services/manga";
+import { getMangaDetail, getMangaFile } from "../../services/manga";
 import { BsCircleFill, BsDownload, BsPen, BsPencil } from "react-icons/bs";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
@@ -142,10 +142,11 @@ const DetailManga = () => {
               className="visited:opacity-75"
               to={`/komik/${title}/${chapter.endpoint}`}
             >
-              <div className="flex justify-between px-2 py-2 rounded-md shadow-sm bg-secondary">
+              <div
+                className="flex justify-between px-2 py-2 rounded-md shadow-sm bg-secondary"
+                key={chapter.endpoint + "chapterManga"}
+              >
                 <h2>{chapter.title}</h2>
-
-                <BsDownload />
               </div>
             </Link>
           );
