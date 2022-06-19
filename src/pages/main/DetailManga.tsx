@@ -144,6 +144,7 @@ const DetailManga = () => {
             >
               <div className="flex justify-between px-2 py-2 rounded-md shadow-sm bg-secondary">
                 <h2>{chapter.title}</h2>
+
                 <BsDownload />
               </div>
             </Link>
