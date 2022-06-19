@@ -38,16 +38,4 @@ const getMangaChapter = async (endPoint: string) => {
   }
 };
 
-const getMangaFile = async (downloadLine: string) => {
-  try {
-    const uri = `${baseUrl}/download/${downloadLine}`;
-    console.log(uri);
-    const res = await axios.get(uri, {
-      responseType: "blob",
-    });
-    return res;
-  } catch (error) {
-    throw { error };
-  }
-};
-export { getMenuManga, getMangaDetail, getMangaChapter, getMangaFile };
+export { getMenuManga, getMangaDetail, getMangaChapter };
