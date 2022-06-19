@@ -8,7 +8,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { SkeletonDetail } from "../../components";
-import { getMangaDetail, getMangaFile } from "../../services/manga";
+import { getMangaDetail } from "../../services/manga";
 import { BsCircleFill, BsDownload, BsPen, BsPencil } from "react-icons/bs";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
