@@ -37,7 +37,7 @@ const recommended = () => {
                 <SkeletonCard key={idx + "recomended"} />
               ))
             : data?.body.recent_popular.map((e, idx) => (
-                <CardManga key={e.link.endpoint} {...e} />
+                <CardManga key={e.name + idx + "cardRecomend"} {...e} />
               ))}
         </div>
         <button
