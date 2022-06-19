@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { IconType } from "react-icons/lib";
 
@@ -18,12 +18,13 @@ const Input: React.FC<props> = ({
   placeHolder = "",
 }) => {
   const [showPass, setShowPass] = useState(!isPassword);
+  const inputId = useId();
 
   return (
     <div className="space-y-1">
       <label
         className="after:content-['*'] after:text-red-400"
-        htmlFor="username"
+        htmlFor={inputId}
       >
         {" "}
         {label}
@@ -34,7 +35,8 @@ const Input: React.FC<props> = ({
           onChange={(e) => onChange(e.target.value)}
           className="bg-inherit w-full focus:outline-none ml-2"
           type={showPass ? "text" : "password"}
-          id="username"
+          id={inputId}
+          autoComplete="current-password"
           placeholder={placeHolder}
         />
         {isPassword &&

@@ -16,7 +16,11 @@ const SignUp = () => {
   const [confPassword, setConfPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { signUp: signUpUser } = UserState() as userStateContextProps;
+  const {
+    signByFacebook,
+    signByGoogle,
+    signUp: signUpUser,
+  } = UserState() as userStateContextProps;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -73,8 +77,17 @@ const SignUp = () => {
       <div className="  w-full max-w-lg  mt-6  mx-auto space-y-4 ">
         <p className="text-center opacity-90 ">or Sign Up using</p>
         <div className="flex items-center justify-center space-x-10">
-          <BsFacebook className="text-[#3D5892] cursor-pointer" size={35} />
+          <BsFacebook
+            onClick={() =>
+              signByFacebook(true).then(() => navigate("/", { replace: true }))
+            }
+            className="text-[#3D5892] cursor-pointer"
+            size={35}
+          />
           <AiFillGoogleCircle
+            onClick={() =>
+              signByGoogle(true).then(() => navigate("/", { replace: true }))
+            }
             className="text-[#D56455] cursor-pointer"
             size={40}
           />

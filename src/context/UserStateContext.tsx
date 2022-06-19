@@ -1,10 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
   User,
+  UserCredential,
 } from "firebase/auth";
 import {
   arrayRemove,
@@ -16,8 +19,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import { auth, db } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
+import { auth, db, faceBookProvider, googleProvider } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { newUserDbHandler } from "../services/firebaseService";
 
 interface authType {
   email: string;
@@ -43,6 +48,8 @@ export interface userStateContextProps {
   user: User | null;
   logOut: () => Promise<void>;
   signIn: (props: authType) => Promise<User>;
+  signByGoogle: (isNewUser: boolean) => Promise<UserCredential>;
+  signByFacebook: (isNewUser: boolean) => Promise<UserCredential>;
   signUp: (props: authType) => Promise<User>;
   addToFav: (props: UserMangaFav) => Promise<void>;
   deleteFromFav: (props: UserMangaFav) => Promise<void>;
@@ -71,21 +78,8 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
         props.email,
         props.password
       );
+      await newUserDbHandler(res.user.email || "");
 
-      const userPath = doc(db, "users", `${res.user.email}`);
-      await setDoc(userPath, {
-        username: res.user.email,
-      });
-      const userMangaPath = doc(
-        db,
-        "users",
-        `${res.user.email}`,
-        "application",
-        "mangando"
-      );
-      await setDoc(userMangaPath, {
-        myFavorite: [],
-      });
       return res.user;
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -112,9 +106,36 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
     }
   };
 
+  const signByGoogle = async (isNewUser: boolean) => {
+    try {
+      const user = await signInWithPopup(auth, googleProvider);
+      const credential = GoogleAuthProvider.credentialFromResult(user);
+      const token = credential?.accessToken;
+      if (isNewUser) await newUserDbHandler(user.user.email || "");
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const signByFacebook = async (isNewUser: boolean) => {
+    try {
+      const user = await signInWithPopup(auth, faceBookProvider);
+      const credential = FacebookAuthProvider.credentialFromResult(user);
+      const token = credential?.accessToken;
+      if (isNewUser) await newUserDbHandler(user.user.email || "");
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const logOut = async () => {
     try {
       const user = await signOut(auth);
+      setMangaList([]);
       navigate("/");
 
       return user;
@@ -176,6 +197,8 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
       value={{
         user,
         signIn,
+        signByGoogle,
+        signByFacebook,
         signUp,
         logOut,
         addToFav,

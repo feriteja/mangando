@@ -1,9 +1,9 @@
 import { FirebaseError } from "firebase/app";
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { AiFillGoogleCircle, AiFillTwitterCircle } from "react-icons/ai";
 import { BiLockAlt, BiUser } from "react-icons/bi";
 import { BsFacebook } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { InputForm } from "../../components";
 import {
   UserState,
@@ -15,7 +15,12 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { signIn: signInUser } = UserState() as userStateContextProps;
+  const {
+    signByFacebook,
+    signByGoogle,
+    signIn: signInUser,
+    user,
+  } = UserState() as userStateContextProps;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -30,6 +35,8 @@ const SignIn = () => {
       console.log(error);
     }
   };
+
+  if (user?.email) return <Navigate to={"/"} replace />;
 
   return (
     <div className=" min-h-screen justify-center items-center  ">
@@ -62,8 +69,17 @@ const SignIn = () => {
       <div className="  w-full max-w-lg  mt-6  mx-auto space-y-4 ">
         <p className="text-center opacity-90 ">or Sign Up using</p>
         <div className="flex items-center justify-center space-x-10">
-          <BsFacebook className="text-[#3D5892] cursor-pointer" size={35} />
+          <BsFacebook
+            onClick={() =>
+              signByFacebook(false).then(() => navigate("/", { replace: true }))
+            }
+            className="text-[#3D5892] cursor-pointer"
+            size={35}
+          />
           <AiFillGoogleCircle
+            onClick={() =>
+              signByGoogle(false).then(() => navigate("/", { replace: true }))
+            }
             className="text-[#D56455] cursor-pointer"
             size={40}
           />
