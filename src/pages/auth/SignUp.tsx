@@ -36,7 +36,6 @@ const SignUp = () => {
       if (error instanceof FirebaseError) {
         setError(error.code);
       }
-      console.log(error);
     }
   };
 
